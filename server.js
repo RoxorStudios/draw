@@ -172,6 +172,7 @@ io.sockets.on('connection', function (socket) {
 
   // User adds a raster image
   socket.on('image:url', function(room, uid, url, position, name) {
+    console.log('toto hier graak ik')
     draw.addImageURL(room, uid, url, position, name);
     //io.sockets.in(room).emit('image:add', uid, data, position, name);
   });
