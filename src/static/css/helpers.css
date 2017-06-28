@@ -1,11 +1,5 @@
-#toggleBackground, #drawTool {
+#toggleBackground {
     display: none;
-}
-
-#pencilTool a {
-    margin-left: 2px;
-    border-radius: 3px 0 0 3px;
-    border-left: 1px solid #CCC;
 }
 
 #clearImage a{
