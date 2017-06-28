@@ -170,6 +170,12 @@ io.sockets.on('connection', function (socket) {
     io.sockets.in(room).emit('image:add', uid, data, position, name);
   });
 
+  // User adds a raster image
+  socket.on('image:url', function(room, uid, url, position, name) {
+    draw.addImageURL(room, uid, url, position, name);
+    //io.sockets.in(room).emit('image:add', uid, data, position, name);
+  });
+
 });
 
 // Subscribe a client to a room
@@ -186,6 +192,9 @@ function subscribe(socket, data) {
 
   // Send settings
   socket.emit('settings', clientSettings);
+
+  // Test
+  socket.emit('image:url', room, '293828247387289', 'http://www.google.com', [0,0], '81767Z8612786Z781268:1');
 
   // Create Paperjs instance for this room if it doesn't exist
   var project = projects.projects[room];
