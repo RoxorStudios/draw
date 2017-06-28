@@ -39,7 +39,9 @@
         <script src='../static/js/lib/webtoolkit.base64.js'></script>
         <script src='../static/js/lib/farbtastic.js'></script>
 	    <script src='../static/js/lib/jquery.pep.min.js'></script>
-        <script src='../static/js/draw.js' type="text/paperscript" canvas="myCanvas"></script>
+
+        <script src='../static/js/draw.js' type="text/paperscript" id="drawScript" canvas="myCanvas" data-activeTool="pencil"></script>
+
         <script>document.domain = document.domain;</script>
     </head>
     <body>
@@ -200,7 +202,12 @@
     var showLineNumbers     = getParameterByName('showChat');
     if(showControls === 'false' || showControls === false || showControls === '' ){
         $('.toolbar').remove();
+        document.getElementById('drawScript').setAttribute("data-activeTool", "");
     }
+
+    $('#pencilTool > a').css({
+      background: "#eee"
+    });
 
 
     function getParameterByName(name, url) {
