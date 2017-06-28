@@ -216,13 +216,6 @@ function subscribe(socket, data) {
   var roomUserCount = Object.keys(rooms).length;
   io.to(room).emit('user:connect', roomUserCount);
 
-
-  // Test
-  setTimeout(function() {
-    console.log('trying to add url')
-    socket.emit('image:url', room, '293828247387289', 'http://www.google.com', [0,0], '81767Z8612786Z781268:1');
- },2000)
-
 }
 
 // Send current project to new client
