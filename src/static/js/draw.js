@@ -1,5 +1,4 @@
 // Please refactor me, this is mostly a complete car crash with globals everywhere.
-
 tool.minDistance = 10;
 tool.maxDistance = 45;
 
@@ -11,6 +10,8 @@ function pickColor(color) {
   $('#activeColorSwatch').css('background-color', 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')');
   update_active_color();
 }
+
+window.uploadImageFormUrl = uploadImageFormUrl;
 
 /**
  * Position picker next to cursor in the bounds of the canvas container
@@ -626,6 +627,10 @@ $('#uploadImage').on('click', function() {
   $('#imageInput').click();
 });
 
+$('#uploadImageUrl').on('click', function() {
+  openFileUrlSelector();
+});
+
 function clearCanvas() {
   // Remove all but the active layer
   if (project.layers.length > 1) {
@@ -728,6 +733,31 @@ function uploadImage(file) {
 }
 
 
+function openFileUrlSelector(url) {
+    window.parent.window.openFileUrlSelector();
+
+}
+
+function uploadImageFormUrl(url) {
+        $.ajax({
+            url: 'http://localhost:8000/live/loadImage',
+            data: { url : url},
+            type: 'GET',
+            dataType: 'jsonp',
+            crossDomain: true,
+            success: function (data, textStatus, xhr) {
+                return;
+                bin = data;
+                var raster = new Raster(bin);
+                raster.position = view.center;
+                raster.name = uid + ":" + (++paper_object_count);
+                socket.emit('image:add', room, uid, JSON.stringify(bin), raster.position, raster.name);
+              },
+              error: function (xhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+              }
+        });
+}
 
 
 // ---------------------------------

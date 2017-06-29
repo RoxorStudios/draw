@@ -15,9 +15,9 @@ var settings = require('./src/util/Settings.js'),
     http = require('http'),
     https = require('https');
 
-/** 
+/**
  * SSL Logic and Server bindings
- */ 
+ */
 if(settings.ssl){
   console.log("SSL Enabled");
   console.log("SSL Key File" + settings.ssl.key);
@@ -34,7 +34,7 @@ if(settings.ssl){
   var server = app.listen(settings.port);
 }
 
-/** 
+/**
  * Build Client Settings that we will send to the client
  */
 var clientSettings = {
@@ -88,8 +88,6 @@ app.get('/tests/frontend', function (req, res) {
 
 // Static files IE Javascript and CSS
 app.use("/static", express.static(__dirname + '/src/static'));
-
-
 
 
 // LISTEN FOR REQUESTS
@@ -205,7 +203,7 @@ function subscribe(socket, data) {
   }
 
   // Broadcast to room the new user count -- currently broken
-  var rooms = socket.adapter.rooms[room]; 
+  var rooms = socket.adapter.rooms[room];
   var roomUserCount = Object.keys(rooms).length;
   io.to(room).emit('user:connect', roomUserCount);
 }
@@ -226,4 +224,3 @@ function loadFromMemory(room, socket) {
 function loadError(socket) {
   socket.emit('project:load:error');
 }
-
