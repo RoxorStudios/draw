@@ -28,3 +28,7 @@
 .menu_right li:nth-child(3){
     display: none;
 }
+
+.buttonicon-folder {
+  background-image: url('../../static/img/folder.png');
+}
