@@ -739,9 +739,9 @@ function openFileUrlSelector(url) {
 
 }
 
-function uploadImageFormUrl(url) {
+function uploadImageFormUrl(parentroot, url) {
     $.ajax({
-        url: 'http://localhost:8000/live/loadImage',
+        url: parentroot+'live/loadImage',
         data: { url : url},
         type: 'GET',
         dataType: 'jsonp',
