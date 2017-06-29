@@ -237,6 +237,7 @@ function onMouseDown(event) {
 
   mouseTimer = 0;
   mouseHeld = setInterval(function() { // is the mouse being held and not dragged?
+     return;
     mouseTimer++;
     if (mouseTimer > 3) {
       mouseTimer = 0;
