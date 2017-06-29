@@ -739,24 +739,23 @@ function openFileUrlSelector(url) {
 }
 
 function uploadImageFormUrl(url) {
-        $.ajax({
-            url: 'http://localhost:8000/live/loadImage',
-            data: { url : url},
-            type: 'GET',
-            dataType: 'jsonp',
-            crossDomain: true,
-            success: function (data, textStatus, xhr) {
-                return;
-                bin = data;
-                var raster = new Raster(bin);
-                raster.position = view.center;
-                raster.name = uid + ":" + (++paper_object_count);
-                socket.emit('image:add', room, uid, JSON.stringify(bin), raster.position, raster.name);
-              },
-              error: function (xhr, textStatus, errorThrown) {
-                console.log(errorThrown);
-              }
-        });
+    $.ajax({
+        url: 'http://localhost:8000/live/loadImage',
+        data: { url : url},
+        type: 'GET',
+        dataType: 'jsonp',
+        crossDomain: true,
+        success: function (data, textStatus, xhr) {
+            bin = data;
+            var raster = new Raster(bin);
+            raster.position = view.center;
+            raster.name = uid + ":" + (++paper_object_count);
+            socket.emit('image:add', room, uid, JSON.stringify(bin), raster.position, raster.name);
+          },
+          error: function (xhr, textStatus, errorThrown) {
+            console.log(errorThrown);
+          }
+    });
 }
 
 
