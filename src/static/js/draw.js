@@ -1,5 +1,4 @@
 // Please refactor me, this is mostly a complete car crash with globals everywhere.
-
 tool.minDistance = 10;
 tool.maxDistance = 45;
 
@@ -11,6 +10,8 @@ function pickColor(color) {
   $('#activeColorSwatch').css('background-color', 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')');
   update_active_color();
 }
+
+window.uploadImageFormUrl = uploadImageFormUrl;
 
 /**
  * Position picker next to cursor in the bounds of the canvas container
@@ -215,7 +216,7 @@ $('#toggleBackground').click(function() {
 var send_paths_timer;
 var timer_is_active = false;
 var paper_object_count = 0;
-var activeTool = "draw";
+var activeTool = document.getElementById("drawScript").getAttribute("data-activeTool");
 var mouseTimer = 0; // used for getting if the mouse is being held down but not dragged IE when bringin up color picker
 var mouseHeld; // global timer for if mouse is held.
 
@@ -236,6 +237,7 @@ function onMouseDown(event) {
 
   mouseTimer = 0;
   mouseHeld = setInterval(function() { // is the mouse being held and not dragged?
+     return;
     mouseTimer++;
     if (mouseTimer > 3) {
       mouseTimer = 0;
@@ -626,6 +628,10 @@ $('#uploadImage').on('click', function() {
   $('#imageInput').click();
 });
 
+$('#uploadImageUrl').on('click', function() {
+  openFileUrlSelector();
+});
+
 function clearCanvas() {
   // Remove all but the active layer
   if (project.layers.length > 1) {
@@ -728,12 +734,30 @@ function uploadImage(file) {
 }
 
 
- // Test
-setTimeout(function() {
-  console.log('trying to add url')
-   socket.emit('image:url', room, '293828247387289', 'http://www.google.com', [0,0], '81767Z8612786Z781268:1');
-},2000)
+function openFileUrlSelector(url) {
+    window.parent.window.openFileUrlSelector();
 
+}
+
+function uploadImageFormUrl(parentroot, url) {
+    $.ajax({
+        url: parentroot+'/live/loadImage',
+        data: { url : url},
+        type: 'GET',
+        dataType: 'jsonp',
+        crossDomain: true,
+        success: function (data, textStatus, xhr) {
+            bin = data;
+            var raster = new Raster(bin);
+            raster.position = view.center;
+            raster.name = uid + ":" + (++paper_object_count);
+            socket.emit('image:add', room, uid, JSON.stringify(bin), raster.position, raster.name);
+          },
+          error: function (xhr, textStatus, errorThrown) {
+            console.log(errorThrown);
+          }
+    });
+}
 
 
 // ---------------------------------
