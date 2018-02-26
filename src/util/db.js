@@ -17,6 +17,11 @@ exports.storeProject = function(room) {
   var project = projects.projects[room].project;
   var json = project.exportJSON();
   console.log("Writing project to database");
+  var jsonSize = Object.keys(json).length;
+  if(jsonSize > (Math.pow(2, 23) - 1)) {
+    console.log("File too big");
+    return;
+  }
   db.set(room, {project: json});
 }
 
